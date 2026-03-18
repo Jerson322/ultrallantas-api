@@ -1,0 +1,478 @@
+/* =====================================================
+     1. LOADER / PANTALLA DE CARGA
+  ===================================================== */
+
+/* Animación de la llanta */
+@keyframes wheelSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.wheel {
+  animation: wheelSpin 1s linear infinite;
+}
+
+/* Animación del humo */
+@keyframes smoke {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) scale(1.4);
+  }
+}
+
+.smoke {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: 50%;
+  animation: smoke 2s infinite;
+}
+
+.smoke:nth-child(2) {
+  left: -40px;
+  animation-delay: 0.4s;
+}
+
+.smoke:nth-child(3) {
+  left: 40px;
+  animation-delay: 0.8s;
+}
+
+/* Animación del texto del logo */
+@keyframes fadeText {
+  0% {
+    opacity: 0;
+    letter-spacing: 20px;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 4px;
+  }
+}
+
+.logoText {
+  animation: fadeText 2s ease forwards;
+}
+
+/* =====================================================
+     2. HEADER / MENÚ PRINCIPAL
+  ===================================================== */
+
+#menuHeader {
+  transition: all 0.35s ease;
+}
+
+.header-compact #topHeader {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* =====================================================
+     3. LOGO DEL HEADER
+  ===================================================== */
+
+/* Logo tamaño normal */
+#header img {
+  height: 70px;
+  transition: all 0.3s ease;
+}
+
+/* Logo pequeño cuando hay scroll */
+#header.header-compact img {
+  height: 36px;
+}
+
+/* =====================================================
+     4. MOVIMIENTO DEL HEADER EN SCROLL
+  ===================================================== */
+
+#header.header-compact #menuHeader {
+  transform: translateY(-28px);
+  padding-bottom: 0;
+}
+
+/* =====================================================
+     5. HEADER TRANSPARENTE / HEADER EN SCROLL
+  ===================================================== */
+
+/* Header transparente */
+#header {
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+/* Header negro al hacer scroll */
+#header.header-compact {
+  background: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* =====================================================
+     6. BANNER / HERO PRINCIPAL
+  ===================================================== */
+
+.banner {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 720px;
+  padding-top: 140px;
+}
+
+/* Imagen de fondo borrosa */
+.banner::before {
+  content: "";
+  position: absolute;
+
+  /* ampliamos el fondo para que el blur no corte */
+  inset: -30px;
+
+  background: url("../img/banners/banner.png") center/cover no-repeat;
+
+  filter: blur(4px);
+  transform: scale(1.1);
+
+  z-index: -2;
+}
+
+/* capa oscura */
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
+
+/* =====================================================
+     7. CARRUSEL DE PRODUCTOS (SWIPER)
+  ===================================================== */
+
+.premiumSwiper .swiper-slide {
+  width: 1000px !important;
+  height: auto;
+  display: flex;
+  justify-content: center; /* centra la tarjeta horizontal */
+}
+
+.premiumSwiper .swiper-wrapper {
+  display: flex;
+  align-items: center; /* centra las tarjetas verticalmente */
+  height: auto !important;
+}
+
+.swiper {
+  padding-bottom: 5px;
+}
+/* =====================================================
+     8. TARJETAS DE PRODUCTOS
+  ===================================================== */
+
+.card {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+
+  transition: 0.35s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+.card img {
+  width: 100%;
+  height: 420px; /* altura tipo televisor */
+  object-fit: cover;
+  display: block;
+}
+
+/* =====================================================
+     9. INFORMACIÓN DE PRODUCTO
+  ===================================================== */
+
+.info {
+  padding: 20px;
+  text-align: center;
+}
+
+.info h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.info p {
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+/* =====================================================
+     10. Filtro
+===================================================== */
+
+.hero-title {
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.hero-title span {
+  color: #f97316;
+}
+
+/* tarjeta buscador */
+
+.search-card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+
+  width: 90%;
+  max-width: 1000px;
+
+  margin-bottom: 60px;
+}
+
+/* grid filtros */
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* selects */
+
+.filter {
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* boton */
+
+.search-btn {
+  background: #f97316;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  background: #ea580c;
+}
+
+/* =====================================================
+     11. DROPDOWN CATEGORÍAS
+  ===================================================== */
+
+/* Mobile submenu improvements */
+#submenuCategoriasMobile li {
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f4f6;
+  transition: color 0.2s;
+}
+
+#submenuCategoriasMobile li:hover {
+  color: #000 !important;
+}
+
+/* Desktop dropdown - ensure Tailwind utilities work */
+#submenuCategoriasDesktop {
+  min-width: 220px;
+}
+
+#submenuCategoriasDesktop li {
+  padding: 10px 12px;
+  transition: all 0.2s;
+}
+
+#submenuCategoriasDesktop li:hover {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+/* =====================================================
+     RESPONSIVE
+===================================================== */
+
+/* tablet */
+
+@media (max-width: 1024px) {
+  .filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* movil */
+
+@media (max-width: 640px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .search-card {
+    padding: 25px;
+  }
+
+  #submenuCategoriasMobile {
+    text-align: left !important;
+  }
+}
+
+/* ===================================
+   SECCIÓN EXPERIENCIA PREMIUM
+=================================== */
+
+.ride-premium {
+  position: relative;
+
+  padding: 120px 20px;
+
+  overflow: hidden;
+
+  background: #111;
+
+  color: white;
+
+  text-align: center;
+}
+
+/* fondo textura carretera */
+
+.ride-bg {
+  position: absolute;
+
+  inset: 0;
+
+  background: url("../img/banners/banner.png") center/cover no-repeat;
+
+  opacity: 0.15;
+
+  transform: scale(1.1);
+
+  filter: contrast(120%) brightness(60%);
+
+  z-index: 0;
+}
+
+/* contenido */
+
+.ride-content {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 900px;
+
+  margin: auto;
+}
+
+/* TITULO */
+
+.ride-title {
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-align: center;
+}
+/* SUBTITULO */
+
+.ride-sub {
+  font-size: 28px;
+
+  font-weight: 500;
+
+  color: #d1d5db;
+
+  margin-bottom: 25px;
+}
+
+/* palabra destacada */
+
+.ride-sub span {
+  color: #f97316;
+
+  font-weight: 800;
+
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.6);
+}
+
+/* descripción */
+
+.ride-description {
+  font-size: 19px;
+
+  color: #9ca3af;
+
+  line-height: 1.7;
+
+  max-width: 720px;
+
+  margin: auto;
+}
+
+/* linea animada */
+
+.ride-divider {
+  width: 0;
+
+  height: 4px;
+
+  background: #f97316;
+
+  margin: 40px auto 0;
+
+  border-radius: 10px;
+
+  animation: dividerGrow 1.2s ease forwards;
+}
+
+@keyframes dividerGrow {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+
+  to {
+    width: 140px;
+    opacity: 1;
+  }
+}
+
+/* animación reveal */
+
+.reveal {
+  opacity: 0;
+
+  transform: translateY(40px);
+
+  transition: all 0.9s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+
+  transform: translateY(0);
+}
