@@ -1,5 +1,5 @@
 import express from "express";
-import fetch from "node-fetch";
+const response = await fetch(URL);
 import cors from "cors";
 
 const app = express();
