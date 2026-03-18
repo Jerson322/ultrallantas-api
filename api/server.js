@@ -1,8 +1,10 @@
 import express from "express";
-const response = await fetch(URL);
 import cors from "cors";
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 app.use(cors()); // 🔥 IMPORTANTE
 app.use(express.json());
