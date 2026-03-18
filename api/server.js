@@ -97,8 +97,27 @@ app.get("/productos", async (req, res) => {
   }
 });
 
+// ==========================
+// 🧠 CACHE
+// ==========================
+let cacheCategorias = null;
+let cacheTiempo = 0;
+const CACHE_TIEMPO = 1000 * 60 * 10; // 10 minutos
+
 app.get("/categorias", async (req, res) => {
   try {
+
+    // ==========================
+    // ⚡ USAR CACHE
+    // ==========================
+    if (cacheCategorias && (Date.now() - cacheTiempo < CACHE_TIEMPO)) {
+      console.log("⚡ CACHE USADO");
+      return res.json(cacheCategorias);
+    }
+
+    // ==========================
+    // 🔐 LOGIN
+    // ==========================
     const login = await fetch(URL_LOGIN, {
       method: "POST",
       headers: {
@@ -113,6 +132,9 @@ app.get("/categorias", async (req, res) => {
     let token = await login.text();
     token = token.replace(/"/g, "").trim();
 
+    // ==========================
+    // 📦 TRAER PRODUCTOS (OPTIMIZADO)
+    // ==========================
     const response = await fetch(URL_PRODUCTOS, {
       method: "POST",
       headers: {
@@ -122,7 +144,7 @@ app.get("/categorias", async (req, res) => {
       body: JSON.stringify({
         Empresa: "001",
         inicio: "0",
-        Limite: "500000",
+        Limite: "2000", // 🔥 MÁS RÁPIDO (ANTES 500000)
       }),
     });
 
@@ -136,7 +158,7 @@ app.get("/categorias", async (req, res) => {
     }
 
     // ==========================
-    // 🔥 FUNCIÓN QUE ENCUENTRA EL ARRAY SOLO
+    // 🔎 BUSCAR ARRAY DINÁMICO
     // ==========================
     function encontrarArray(obj) {
       if (Array.isArray(obj)) return obj;
@@ -163,25 +185,71 @@ app.get("/categorias", async (req, res) => {
     console.log("PRIMER PRODUCTO:", lista[0]);
 
     // ==========================
-    // SACAR CATEGORIAS
+    // ❌ CATEGORÍAS A EXCLUIR
+    // ==========================
+    const excluir = [
+      "Neumatico sellomatic",
+      "Neumaticos",
+      "Bandas",
+      "Aceites",
+      "Lubricantes",
+      "Refrigerante",
+      "LIQUIDO DE FRENOS",
+      "BEBIDAS",
+      "ACUTRAS",
+      "SERVICIOS VARIOS",
+      "RADIOS",
+      "GRASA",
+      "TACOS",
+      "FLTROS DE ACEITE",
+      "SELLOMATIC",
+      "CABALLETES",
+      "MANILARES",
+      "RINES",
+      "BOMBA DE ACEITE",
+      "REPUESTOS",
+      "CARPAS PARA MOTO",
+      "FILTROS DE AIRE",
+      "PARCHES"
+    ];
+
+    // ==========================
+    // 🧠 GENERAR CATEGORÍAS LIMPIAS
     // ==========================
     const categorias = [
       ...new Set(
         lista
-          .map((p) => p.grupo) // 👈 ESTE YA ES CORRECTO SEGÚN TU DATA
-          .filter(Boolean),
+          .map((p) => p.grupo)
+          .filter(Boolean)
+          .filter(cat => !excluir.includes(cat))
       ),
     ];
 
-    res.json({
+    // ==========================
+    // 💾 GUARDAR EN CACHE
+    // ==========================
+    const respuesta = {
       total: categorias.length,
       categorias,
-    });
+    };
+
+    cacheCategorias = respuesta;
+    cacheTiempo = Date.now();
+
+    // ==========================
+    // 🚀 RESPUESTA
+    // ==========================
+    res.json(respuesta);
+
   } catch (error) {
     console.log("ERROR:", error);
     res.status(500).send("Error obteniendo categorias");
   }
 });
+
+// ==========================
+// 🚀 SERVIDOR
+// ==========================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Servidor corriendo en puerto " + PORT);
