@@ -6,10 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const URL_LOGIN =
-  "http://200.116.191.17/agilapi/api/agillogin/authenticate";
-const URL_PRODUCTOS =
-  "http://200.116.191.17/agilapi/api/customer/product";
+const URL_LOGIN = "http://200.116.191.17/agilapi/api/agillogin/authenticate";
+const URL_PRODUCTOS = "http://200.116.191.17/agilapi/api/customer/product";
 
 // ==========================
 // CACHE GLOBAL
@@ -152,12 +150,13 @@ app.get("/categorias", async (req, res) => {
     const productos = await obtenerProductos();
 
     const excluir = [
-      "Neumatico sellomatic",
-      "Neumaticos",
-      "Bandas",
-      "Aceites",
-      "Lubricantes",
-      "Refrigerante",
+      "NEUMATICO-SELLOMATIC",
+      "SELLOMATIC",
+      "NEUMATICOS",
+      "BANDAS",
+      "ACEITE",
+      "LUBRICANTES",
+      "REFRIGERANTE",
       "LIQUIDO DE FRENOS",
       "BEBIDAS",
       "ACUTRAS",
@@ -191,8 +190,8 @@ app.get("/categorias", async (req, res) => {
       categorias,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Error categorias");
+    console.log("ERROR REAL:", error);
+    res.status(500).send(error.message);
   }
 });
 
