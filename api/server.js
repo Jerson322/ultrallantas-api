@@ -128,10 +128,12 @@ app.get("/productos/categoria/:categoria", async (req, res) => {
 
     const productos = await obtenerProductos();
 
-    const filtrados = productos.filter(
-      (p) => p.grupo?.toUpperCase() === categoria,
-    );
+    const filtrados = productos.filter((p) => {
+      const grupo = p.grupo?.toString().trim().toUpperCase();
+      const stock = p.inventory?.[0]?.inventory ?? 0;
 
+      return grupo === categoria && stock > 0;
+    });
     res.json({
       total: filtrados.length,
       productos: filtrados,
