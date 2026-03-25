@@ -39,65 +39,96 @@ async function obtenerToken() {
 // ==========================
 // TRAER PRODUCTOS DEL ERP
 // ==========================
+// ==========================
+// TRAER TODOS LOS PRODUCTOS DEL ERP (PAGINADO)
+// ==========================
 async function traerProductosERP() {
   const token = await obtenerToken();
 
-  const response = await fetch(URL_PRODUCTOS, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      Empresa: "001",
-      inicio: "0",
-      Limite: "2000",
-    }),
-  });
+  let todosLosProductos = [];
+  let inicio = 0;
+  const limite = 2000;
+  let continuar = true;
 
-  const rawData = await response.text();
+  while (continuar) {
+    console.log("Consultando ERP desde:", inicio);
 
-  let data;
-  try {
-    data = JSON.parse(rawData);
-  } catch {
-    return [];
-  }
+    const response = await fetch(URL_PRODUCTOS, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        Empresa: "001",
+        inicio: inicio.toString(),
+        Limite: limite.toString(),
+      }),
+    });
 
-  // Buscar el array real
-  function encontrarArray(obj) {
-    if (Array.isArray(obj)) return obj;
+    const rawData = await response.text();
 
-    for (const key in obj) {
-      if (Array.isArray(obj[key])) return obj[key];
-      if (typeof obj[key] === "object" && obj[key] !== null) {
-        const res = encontrarArray(obj[key]);
-        if (res) return res;
-      }
+    let data;
+    try {
+      data = JSON.parse(rawData);
+    } catch {
+      console.log("Error parseando ERP");
+      break;
     }
-    return [];
+
+    function encontrarArray(obj) {
+      if (Array.isArray(obj)) return obj;
+
+      for (const key in obj) {
+        if (Array.isArray(obj[key])) return obj[key];
+        if (typeof obj[key] === "object" && obj[key] !== null) {
+          const res = encontrarArray(obj[key]);
+          if (res) return res;
+        }
+      }
+      return [];
+    }
+
+    const productos = encontrarArray(data);
+
+    if (!productos.length) {
+      continuar = false;
+      break;
+    }
+
+    todosLosProductos = todosLosProductos.concat(productos);
+
+    if (productos.length < limite) {
+      continuar = false;
+    } else {
+      inicio += limite;
+    }
   }
 
-  return encontrarArray(data);
+  console.log("TOTAL PRODUCTOS ERP:", todosLosProductos.length);
+
+  return todosLosProductos;
 }
 
 // ==========================
 // OBTENER PRODUCTOS (CACHE)
 // ==========================
 async function obtenerProductos() {
+  const ahora = Date.now();
+
   if (
     cacheProductos &&
-    Date.now() - cacheTiempoProductos < CACHE_TIEMPO_PRODUCTOS
+    ahora - cacheTiempoProductos < CACHE_TIEMPO_PRODUCTOS
   ) {
-    console.log("⚡ Productos desde cache");
+    console.log("⚡ Usando cache");
     return cacheProductos;
   }
 
-  console.log("🔄 Consultando ERP...");
+  console.log("🔄 Actualizando productos ERP...");
   const productos = await traerProductosERP();
 
   cacheProductos = productos;
-  cacheTiempoProductos = Date.now();
+  cacheTiempoProductos = ahora;
 
   return productos;
 }
@@ -124,16 +155,19 @@ app.get("/productos", async (req, res) => {
 // ==========================
 app.get("/productos/categoria/:categoria", async (req, res) => {
   try {
-    const categoria = req.params.categoria.toUpperCase();
+    const categoria = req.params.categoria.toString().trim().toUpperCase();
 
     const productos = await obtenerProductos();
 
     const filtrados = productos.filter((p) => {
       const grupo = p.grupo?.toString().trim().toUpperCase();
-      const stock = p.inventory?.[0]?.inventory ?? 0;
 
-      return grupo === categoria && stock > 0;
+      const stockTotal =
+        p.inventory?.reduce((acc, i) => acc + (i.inventory || 0), 0) || 0;
+
+      return grupo === categoria && stockTotal > 0;
     });
+
     res.json({
       total: filtrados.length,
       productos: filtrados,
@@ -143,7 +177,6 @@ app.get("/productos/categoria/:categoria", async (req, res) => {
     res.status(500).send("Error categoria");
   }
 });
-
 // ==========================
 // CATEGORIAS
 // ==========================
