@@ -37,9 +37,6 @@ async function obtenerToken() {
 }
 
 // ==========================
-// TRAER PRODUCTOS DEL ERP
-// ==========================
-// ==========================
 // TRAER TODOS LOS PRODUCTOS DEL ERP (PAGINADO)
 // ==========================
 async function traerProductosERP() {
@@ -116,10 +113,7 @@ async function traerProductosERP() {
 async function obtenerProductos() {
   const ahora = Date.now();
 
-  if (
-    cacheProductos &&
-    ahora - cacheTiempoProductos < CACHE_TIEMPO_PRODUCTOS
-  ) {
+  if (cacheProductos && ahora - cacheTiempoProductos < CACHE_TIEMPO_PRODUCTOS) {
     console.log("⚡ Usando cache");
     return cacheProductos;
   }
@@ -180,6 +174,17 @@ app.get("/productos/categoria/:categoria", async (req, res) => {
 // ==========================
 // CATEGORIAS
 // ==========================
+import mysql from "mysql2/promise";
+
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "ultraca4_admin2",
+  password: "NYK!NzlbUAzL",
+  database: "ultraca4_usuarios",
+  waitForConnections: true,
+  connectionLimit: 10,
+});
+
 app.get("/categorias", async (req, res) => {
   try {
     const productos = await obtenerProductos();
@@ -220,13 +225,87 @@ app.get("/categorias", async (req, res) => {
       ),
     ];
 
-    res.json({
-      total: categorias.length,
-      categorias,
-    });
+    res.json({ total: categorias.length, categorias });
   } catch (error) {
-    console.log("ERROR REAL:", error);
+    console.log("ERROR:", error);
     res.status(500).send(error.message);
+  }
+});
+
+// Nuevos endpoints Admin
+app.get("/api/usuarios", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT correo, rol FROM USUARIOS ORDER BY fecha_registro DESC",
+    );
+    res.json(rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get("/api/promociones", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM promociones WHERE activa = 1 AND (fecha_fin IS NULL OR fecha_fin > NOW()) ORDER BY fecha_inicio DESC",
+    );
+    res.json(rows);
+  } catch (e) {
+    res.status(500).json({ error: "Table not found - run SQL" });
+  }
+});
+
+app.post("/api/promociones", async (req, res) => {
+  try {
+    const { tipo, target, descuento } = req.body;
+    const [result] = await pool.query(
+      "INSERT INTO promociones (tipo, target, descuento) VALUES (?, ?, ?)",
+      [tipo, JSON.stringify(target), descuento],
+    );
+    res.json({ success: true, id: result.insertId });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get("/api/notificaciones", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM notificaciones WHERE leida = 0 ORDER BY fecha DESC LIMIT 10",
+    );
+    res.json(rows);
+  } catch (e) {
+    res.json([]);
+  }
+});
+
+// Promo aplicada en productos
+app.get("/api/productos-con-promo", async (req, res) => {
+  try {
+    const productos = await obtenerProductos();
+    const [promos] = await pool.query(
+      "SELECT * FROM promociones WHERE activa = 1",
+    );
+
+    const productosConPromo = productos
+      .map((p) => {
+        let descuentoTotal = 0;
+        promos.forEach((promo) => {
+          if (promo.tipo === "global")
+            descuentoTotal += parseFloat(promo.descuento);
+          else if (promo.tipo === "categoria" && promo.target.includes(p.grupo))
+            descuentoTotal += parseFloat(promo.descuento);
+          // TODO: producto específico por ID
+        });
+        p.descuento_aplicado = descuentoTotal;
+        p.precio_final = p.price?.[0]?.price * (1 - descuentoTotal / 100);
+        return p;
+      })
+      .filter((p) => p.descuento_aplicado > 0);
+
+    res.json({ resultados: productosConPromo });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 });
 

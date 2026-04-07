@@ -1,31 +1,44 @@
-# TODO: Fix CATEGORÍAS Dropdown
+# TODO: Admin Panel Enhancements - PROGRESS
 
-## Plan Steps:
+## 1. [x] Backend APIs
 
-- [ ] Step 1: Update index.html - Add desktop submenu HTML
-- [ ] Step 2: Update assets/css/styles.css - Add dropdown styles
-- [ ] Step 3: Update assets/js/app.js - Fix and consolidate JS logic
-- [ ] Step 4: Test functionality
-- [ ] Step 5: Complete
+- [x] mysql2 installed
+- [x] server.js endpoints (usuarios/promos/notifs/productos-con-promo)
+- [x] crear-usuario.php + listar-usuarios.php
+- [x] promociones.php + notificaciones.php
 
-## 🔄 NEW PLAN (based on feedback):
+## 2. [x] Admin Panel Users
 
-**Goals:** Scrollable categories, X close mobile (full overlay), prettier design, 100% functional.
+- [x] HTML/JS/CSS for users tab (add/list)
 
-**Updated Steps:**
+## 3. [ ] DB Setup (REQUIRED)
 
-- [x] Previous updates
-- [ ] Step 4: Make mobile full overlay modal with X close + scroll
-- [ ] Step 5: Improve desktop dropdown (scrollable, beautiful design)
-- [ ] Step 6: Enhance global styling + test both
+```
+CREATE TABLE IF NOT EXISTS promociones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tipo VARCHAR(50),
+  target JSON,
+  descuento DECIMAL(5,2),
+  fecha_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fecha_fin TIMESTAMP NULL,
+  activa TINYINT(1) DEFAULT 1
+);
 
-Current: Step 4
+CREATE TABLE IF NOT EXISTS notificaciones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  mensaje TEXT,
+  tipo VARCHAR(20),
+  leida TINYINT(1) DEFAULT 0,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-**Instructions:**
+Run in phpMyAdmin on `ultraca4_usuarios`.
 
-1. Open index.html in browser (right-click → Open with Live Server)
-2. Test mobile: ☰ → CATEGORÍAS (should toggle submenu)
-3. Test desktop: Hover/click CATEGORÍAS (should show dropdown)
-4. Check F12 Console for "✅ CATEGORÍAS JS CARGADO"
+## 4. [ ] Admin Promos
 
-Once tested, the CATEGORÍAS dropdown will work on both mobile and desktop.
+- [ ] Enhanced form + save to DB
+
+## 5. [ ] Frontend app.js promo apply
+
+## 6. [ ] Test: Restart api/server.js (`node api/server.js`)

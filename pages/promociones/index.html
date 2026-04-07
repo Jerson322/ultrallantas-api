@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ultrallantas Admin PRO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+  </head>
+
+  <body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <button id="btnMenuAdmin">☰</button>
+      <h2>🚗 Ultrallantas</h2>
+
+      <nav>
+        <button onclick="cambiarVista('dashboard')" class="active">
+          📊 Dashboard
+        </button>
+        <button onclick="cambiarVista('productos')">📦 Productos</button>
+        <button onclick="cambiarVista('promos')">🔥 Promos</button>
+        <button onclick="cambiarVista('usuarios')">👤 Usuarios</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="vista activa">
+        <div class="dashboard-container">
+          <!-- HEADER -->
+          <div class="dashboard-header">
+            <div>
+              <h2>👋 Bienvenido, Admin</h2>
+              <p>Panel de control Ultrallantas</p>
+            </div>
+            <span id="fechaActual"></span>
+          </div>
+
+          <!-- CARDS -->
+          <div class="cards">
+            <div class="card">
+              <div class="card-icon">📦</div>
+              <div>
+                <p>Total Productos</p>
+                <h3 id="total">0</h3>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🖼️</div>
+              <div>
+                <p>Sin Imagen</p>
+                <h3 id="sinImg">0</h3>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">⚠️</div>
+              <div>
+                <p>Bajo Stock</p>
+                <h3 id="bajo">0</h3>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🆕</div>
+              <div>
+                <p>Nuevos Hoy</p>
+                <h3 id="nuevo">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRID -->
+          <div class="dashboard-grid">
+            <div class="panel">
+              <h3>📈 Actividad</h3>
+              <ul id="actividad"></ul>
+            </div>
+
+            <div class="panel">
+              <h3>⚠ Alertas</h3>
+              <div id="alertas"></div>
+            </div>
+
+            <div class="panel full">
+              <h3>🔥 Productos destacados</h3>
+              <div id="topProductos" class="top-grid"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section id="productos" class="vista hidden">
+        <div class="section-header">
+          <h2>📦 Productos</h2>
+        </div>
+
+        <div class="filtros">
+          <input id="buscar" placeholder="Buscar producto..." />
+          <select id="categoria"></select>
+          <select id="orden">
+            <option value="">Orden</option>
+            <option value="asc">Precio ↑</option>
+            <option value="desc">Precio ↓</option>
+          </select>
+        </div>
+
+        <div id="grid" class="grid"></div>
+      </section>
+
+      <!-- PROMOS -->
+      <section id="promos" class="vista hidden">
+        <div class="section-header">
+          <h2>🔥 Promociones</h2>
+        </div>
+
+        <input id="desc" placeholder="% descuento" />
+        <button onclick="guardarPromo()">Guardar promoción</button>
+      </section>
+
+      <!-- USUARIOS -->
+      <section id="usuarios" class="vista hidden">
+        <div class="section-header">
+          <h2>👤 Usuarios</h2>
+        </div>
+
+        <input id="correo" placeholder="correo" />
+        <button onclick="crearUsuario()">Crear usuario</button>
+
+        <div id="lista"></div>
+      </section>
+    </main>
+
+    <script src="/assets/js/admin.js"></script>
+  </body>
+</html>

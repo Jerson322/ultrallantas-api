@@ -1,328 +1,404 @@
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ultrallantas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ultrallantas</title>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="assets/css/styles.css">
-
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
-    
-  </head>
-
-  <body class="bg-gray-100">
-    <!-- LOADER -->
-
-    <div
-      id="loader"
-      class="fixed inset-0 bg-black flex flex-col items-center justify-center text-white z-50"
-    >
-      <div class="relative flex flex-col items-center">
-        <div class="smoke"></div>
-        <div class="smoke"></div>
-        <div class="smoke"></div>
-
-        <svg class="wheel w-28 mb-6" viewBox="0 0 200 200">
-          <circle
-            cx="100"
-            cy="100"
-            r="90"
-            stroke="#222"
-            stroke-width="20"
-            fill="#111"
-          />
-          <circle cx="100" cy="100" r="55" fill="#777" />
-          <circle cx="100" cy="100" r="20" fill="#444" />
-
-          <line
-            x1="100"
-            y1="45"
-            x2="100"
-            y2="155"
-            stroke="#999"
-            stroke-width="6"
-          />
-          <line
-            x1="45"
-            y1="100"
-            x2="155"
-            y2="100"
-            stroke="#999"
-            stroke-width="6"
-          />
-          <line
-            x1="65"
-            y1="65"
-            x2="135"
-            y2="135"
-            stroke="#999"
-            stroke-width="6"
-          />
-          <line
-            x1="135"
-            y1="65"
-            x2="65"
-            y2="135"
-            stroke="#999"
-            stroke-width="6"
-          />
-        </svg>
+<body class="bg-gray-100 flex flex-col min-h-screen"><!-- LOADER -->
+  <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center text-white z-50">
+    <div class="relative flex flex-col items-center">
+      <div class="smoke"></div>
+      <div class="smoke"></div>
+      <div class="smoke"></div> <svg class="wheel w-28 mb-6" viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="90" stroke="#222" stroke-width="20" fill="#111" />
+        <circle cx="100" cy="100" r="55" fill="#777" />
+        <circle cx="100" cy="100" r="20" fill="#444" />
+        <line x1="100" y1="45" x2="100" y2="155" stroke="#999" stroke-width="6" />
+        <line x1="45" y1="100" x2="155" y2="100" stroke="#999" stroke-width="6" />
+        <line x1="65" y1="65" x2="135" y2="135" stroke="#999" stroke-width="6" />
+        <line x1="135" y1="65" x2="65" y2="135" stroke="#999" stroke-width="6" />
+      </svg>
+    </div>
+    <h1 class="logoText text-4xl font-bold mt-6 tracking-widest"> ULTRALLANTAS </h1>
+    <p class="text-gray-400 mt-2">Cargando sitio...</p>
+    <div class="w-72 h-2 bg-gray-700 rounded mt-10 overflow-hidden">
+      <div id="barra" class="h-full bg-red-600 w-0 transition-all"></div>
+    </div>
+  </div> 
+  <!-- CONTENIDO -->
+  <div id="contenido" class="hidden">
+    <header id="header" class="text-white fixed w-full top-0 left-0 z-40 transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-6">
+        <div id="topHeader" class="flex items-center justify-between py-6 transition-all duration-300"> <button
+            id="btnMenu" class="text-2xl md:hidden">☰</button> <img id="logoInicio" src="/assets/img/logo/logo.png" alt="Ultrallantas" class="h-18 w-auto cursor-pointer" />
+          <div class="flex items-center gap-6 text-xl"> 
+            <!-- BOTON CUENTA -->
+<button id="btnCuenta" class="btn-cuenta">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 12c2.761 0 5-2.462 5-5.5S14.761 1 12 1 7 3.462 7 6.5 9.239 12 12 12zm0 2c-4.418 0-8 2.686-8 6v2h16v-2c0-3.314-3.582-6-8-6z"/>
+  </svg>
+</button>
+            <button class="hover:text-red-500 transition">🛒</button> </div>
+        </div> <!-- DESKTOP -->
+        <nav id="menuHeader" class="hidden md:flex justify-center pb-6">
+          <ul class="flex gap-10 text-sm font-semibold tracking-widest">
+           <li class="btnInicio hover:text-red-500 cursor-pointer">INICIO</li>
+        <li class="relative cursor-pointer" id="menuCategoriasDesktop"> <span
+                class="hover:text-red-500">CATEGORÍAS</span>
+              <ul id="submenuCategoriasDesktop"
+                class="hidden absolute top-full left-0 w-64 bg-white/90 backdrop-blur-xl shadow-2xl border rounded-xl mt-2 py-3 px-4 flex-col gap-1 text-sm text-black">
+              </ul>
+            </li>
+            <li class="hover:text-red-500 cursor-pointer">NOSOTROS</li>
+            <li class="hover:text-red-500 cursor-pointer">CONTACTANOS</li>
+            <li class="hover:text-red-500 cursor-pointer">PROMOCIONES</li>
+          </ul>
+        </nav> <!-- MOBILE -->
+        <ul id="menuMobile"
+          class="hidden absolute top-full left-0 w-full bg-black flex-col gap-4 text-center font-semibold md:hidden py-6">
+          <li class="btnInicio hover:text-red-500 cursor-pointer">INICIO</li>
+          <li>
+            <div id="btnCategoriasMobile" class="cursor-pointer"> CATEGORÍAS </div>
+            <ul id="submenuCategoriasMobile" class="hidden flex flex-col gap-2 text-sm text-gray-400 mt-2"></ul>
+          </li>
+          <li>NOSOTROS</li>
+          <li>CONTACTANOS</li>
+          <li>PROMOCIONES</li>
+        </ul>
       </div>
+    </header>
+  </div>
+  <!-- BANNER LLANTAS (GLOBAL) -->
+<section id="bannerLlantas" class="banner relative flex flex-col items-center justify-center text-center w-full">
 
-      <h1 class="logoText text-4xl font-bold mt-6 tracking-widest">
-        ULTRALLANTAS
-      </h1>
+  <div class="banner-overlay"></div>
 
-      <p class="text-gray-400 mt-2">Cargando sitio...</p>
+  <div class="relative text-white mb-12 max-w-4xl px-6">
+    <p class="tracking-[8px] text-sm uppercase opacity-80">
+      Performance • Seguridad • Tecnología
+    </p>
 
-      <div class="w-72 h-2 bg-gray-700 rounded mt-10 overflow-hidden">
-        <div id="barra" class="h-full bg-red-600 w-0 transition-all"></div>
+    <h1 class="hero-title mt-4">
+      La <span>llanta perfecta</span><br> para tu moto existe
+    </h1>
+
+    <p class="mt-4 text-lg text-gray-200">
+      Encuéntrala en segundos con nuestro buscador inteligente
+    </p>
+  </div>
+
+  <!-- FILTROS LLANTAS -->
+  <div class="search-card">
+    <div class="filters">
+
+      <select id="ancho" class="filter">
+        <option value="">Ancho</option>
+      </select>
+
+      <select id="perfil" class="filter">
+        <option value="">Perfil</option>
+      </select>
+
+      <select id="diametro" class="filter">
+        <option value="">Diámetro</option>
+      </select>
+
+      <button id="buscar" class="search-btn">
+        Buscar llanta
+      </button>
+
+    </div>
+  </div>
+
+</section>
+<main id="contenidoPrincipal" class="flex-grow">  
+  
+<!-- CARRUSEL DE PRODUCTOS -->
+  <section class="relative pt-20 pb-20 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-10"> Lo más destacado </h2>
+      <div class="swiper premiumSwiper">
+        <div class="swiper-wrapper"> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi2.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi2.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div> <!-- PRODUCTO -->
+          <div class="swiper-slide">
+            <div class="card"> <img src="/assets/img/carrousel/publi.JPG"> </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
       </div>
+  </section> 
+  
+  
+  <!-- SECCIÓN EXPERIENCIA DE MANEJO -->
+  <section class="ride-premium">
+    <div class="ride-bg"></div>
+    <div class="ride-content reveal">
+      <h2 class="ride-title"> ELEVA TU EXPERIENCIA </h2>
+      <h3 class="ride-sub"> de manejo con lo mejor <span>ULTRALLANTAS</span> </h3>
+      <p class="ride-description"> Para uso privado o profesional, nuestras llantas están diseñadas para ofrecer máximo
+        agarre, seguridad y rendimiento en cada kilómetro. Encuentra la llanta perfecta para tu estilo de conducción.
+      </p>
+      <div class="ride-divider"></div>
+    </div>
+  </section>
+
+
+<section class="seccion-gama">
+
+  <div class="overlay-fondo"></div>
+
+  <div class="contenedor">
+
+    <!-- TITULO -->
+    <div class="titulo">
+      <h2>Descubre la gama</h2>
+      <h3>de ULTRALLANTAS</h3>
     </div>
 
-    <!-- CONTENIDO -->
-<div id="contenido" class="hidden">
-  <header
-    id="header"
-    class="text-white fixed w-full top-0 left-0 z-40 transition-all duration-300"
-  >
-    <div class="max-w-7xl mx-auto px-6">
-      <div
-        id="topHeader"
-        class="flex items-center justify-between py-6 transition-all duration-300"
-      >
-        <button id="btnMenu" class="text-2xl md:hidden">☰</button>
+    <!-- CAROUSEL -->
+    <div class="carousel">
+  <div class="carousel-track" id="carouselTrack">
 
-        <img
-          src="assets/img/logo/logo.png"
-          alt="Ultrallantas"
-          class="h-18 w-auto"
-        />
-
-        <div class="flex items-center gap-6 text-xl">
-          <button class="hover:text-red-500 transition">👤</button>
-          <button class="hover:text-red-500 transition">🛒</button>
+      <div class="item">
+        <img src="/assets/img/carrousel/CASCO-SCORPION-EXO-EXO-T520-NAMA-SUSHI-BLACKWHITE.png">
+        <div class="overlay">
+          <h5>Cascos</h5>
+          <a href="#" onclick="abrirCategoria('CASCOS')">Explorar</a>
         </div>
       </div>
 
-      <!-- DESKTOP -->
-      <nav id="menuHeader" class="hidden md:flex justify-center pb-6">
-        <ul class="flex gap-10 text-sm font-semibold tracking-widest">
-          <li class="hover:text-red-500 cursor-pointer">INICIO</li>
+      <div class="item">
+        <img src="/assets/img/carrousel/ewig-gris-camo.png">
+        <div class="overlay">
+          <h5>Chaquetas</h5>
+          <a href="#" onclick="abrirCategoria('CHAQUETAS')">Explorar</a>
+        </div>
+      </div>
 
-          <li class="relative group cursor-pointer">
-            <span class="hover:text-red-500 group-hover:text-red-500">
-              CATEGORÍAS
-            </span>
+      <div class="item">
+        <img src="/assets/img/carrousel/GUANTES-FIST-STRAPPED-GLOVE-LIL-TEDS.png">
+        <div class="overlay">
+          <h5>Guantes</h5>
+          <a href="#" onclick="abrirCategoria('GUANTES')">Explorar</a>
+        </div>
+      </div>
 
-            <!-- DROPDOWN -->
-            <ul
-              id="submenuCategoriasDesktop"
-              class="hidden group-hover:flex absolute top-full left-0 w-64 bg-white/90 backdrop-blur-xl 
-              shadow-2xl border rounded-xl mt-2 py-3 px-4 z-50
-              flex-col gap-1 text-sm text-black"
-            >
-            </ul>
-          </li>
+      <div class="item">
+        <img src="/assets/img/carrousel/CARDO-EDGE-DUO-PNG.png">
+        <div class="overlay">
+          <h5>INTERCOMUNICADORES</h5>
+          <a href="#" onclick="abrirCategoria('INTERCOMUNICADORES')">Explorar</a>
+        </div>
+      </div>
 
-          <li class="hover:text-red-500 cursor-pointer">NOSOTROS</li>
-          <li class="hover:text-red-500 cursor-pointer">CONTACTANOS</li>
-          <li class="hover:text-red-500 cursor-pointer">PROMOCIONES</li>
+      <div class="item">
+        <img src="/assets/img/carrousel/MITAS_ENDURO_TRAIL__SET.webp">
+        <div class="overlay">
+          <h5>LLANTAS</h5>
+          <a href="#" onclick="abrirCategoria('LLANTAS')">Explorar</a>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="/assets/img/carrousel/DAINESE-torque-.png">
+        <div class="overlay">
+          <h5>BOTAS</h5>
+          <a href="#" onclick="abrirCategoria('BOTAS')">Explorar</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+  </main>
+
+
+<section 
+  id="vistaCategorias"
+  class="hidden relative min-h-screen pt-32 pb-20 bg-cover bg-center"
+  style="background-image: url('/assets/img/productos/fondoR2.jpg');"
+>
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6">
+<h2 id="tituloCategoria" class="text-4xl md:text-5xl font-bold mt-12 mb-12 text-white text-center"></h2>
+
+<!-- FILTROS MEJORADOS -->
+<div id="filtrosProductos" class="flex flex-col md:flex-row items-center justify-center gap-4 mb-12">
+
+  <!-- BUSCAR PRODUCTO -->
+  <div class="relative w-full md:w-80">
+    <input
+      id="buscarNombre"
+      type="text"
+      placeholder="Buscar producto..."
+      class="w-full bg-white/90 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 shadow-md"
+    />
+    <span class="absolute left-3 top-2.5 text-gray-500">🔍</span>
+  </div>
+
+  <!-- ORDENAR PRECIO -->
+  <select
+    id="ordenPrecio"
+    class="bg-white/90 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 text-sm shadow-md hover:shadow-lg transition focus:ring-2 focus:ring-red-500"
+  >
+    <option value="">Ordenar por precio</option>
+    <option value="asc">Menor a mayor</option>
+    <option value="desc">Mayor a menor</option>
+  </select>
+
+  <!-- ORDENAR NOMBRE -->
+  <select
+    id="ordenNombre"
+    class="bg-white/90 backdrop-blur-lg border border-white/30 rounded-xl px-4 py-2 text-sm shadow-md hover:shadow-lg transition focus:ring-2 focus:ring-red-500"
+  >
+    <option value="">Ordenar por nombre</option>
+    <option value="az">A → Z</option>
+    <option value="za">Z → A</option>
+  </select>
+
+</div>
+
+
+    <div id="gridProductos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    </div>
+  </div>
+</section>
+
+
+<!-- MODAL PROMOCIONES -->
+<div id="modalLogin" class="promo-modal">
+
+  <div class="promo-container">
+
+    <!-- BOTON CERRAR -->
+    <button class="cerrar-modal">✕</button>
+    <!-- IZQUIERDA -->
+    <div class="promo-left">
+      <div class="promo-overlay">
+        <h2>Descuentos secretos 🔥</h2>
+        <p>
+          Suscríbete y recibe promociones exclusivas,
+          lanzamientos y precios especiales antes que todos.
+        </p>
+
+        <ul>
+          <li>✔ Ofertas privadas</li>
+          <li>✔ Acceso anticipado</li>
+          <li>✔ Descuentos reales</li>
         </ul>
-      </nav>
+      </div>
+    </div>
 
-      <!-- MOBILE -->
-      <ul class="flex flex-col gap-4 text-center font-semibold md:hidden">
-        <li>INICIO</li>
+    <!-- DERECHA -->
+    <div class="promo-right">
 
-        <li>
-          <!-- BOTÓN -->
-          <div id="btnCategoriasMobile" class="cursor-pointer">
-            CATEGORÍAS
-          </div>
+      <h3>Obtén promociones</h3>
 
-          <!-- SUBMENU -->
-          <ul
-            id="submenuCategoriasMobile"
-            class="hidden flex flex-col gap-2 text-sm text-gray-400 mt-2 ml-4"
-          ></ul>
-        </li>
+      <input 
+        type="email" 
+        id="correoAdmin"
+        placeholder="correo@ejemplo.com"
+      >
 
-        <li>NOSOTROS</li>
-        <li>CONTACTANOS</li>
-        <li>PROMOCIONES</li>
+      <button id="btnIngresar">
+        Quiero mis descuentos
+      </button>
+      <span id="mensajeLogin"></span>
+
+      <small>
+        Solo enviamos promociones importantes.
+      </small>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <footer class="footer">
+  <div class="footer-container">
+
+    <!-- LOGO + REDES -->
+    <div class="footer-brand">
+      <img src="/assets/img/logo/logo.png" alt="Logo" class="footer-logo">
+
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <!-- CATEGORIAS -->
+    <div class="footer-col">
+      <h4>Categorías</h4>
+      <ul>
+        <li><a href="#">Cascos</a></li>
+        <li><a href="#">Guantes</a></li>
+        <li><a href="#">Chaquetas</a></li>
+        <li><a href="#">Botas</a></li>
+        <li><a href="#">Intercomunicadores</a></li>
+        <li><a href="#">Llantas</a></li>
+        <li><a href="#">Accesorios</a></li>
       </ul>
     </div>
-  </header>
-</div>
-      </header>
 
-      <!-- BANNER -->
+    <!-- INFORMACION -->
+    <div class="footer-col">
+      <h4>Información</h4>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Productos</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Política de Privacidad</a></li>
+        <li><a href="#">Términos y Condiciones</a></li>
+      </ul>
+    </div>
 
-<section class="banner relative flex flex-col items-center justify-center text-center">
-<div class="banner-overlay"></div>
-
-<!-- HERO TEXT -->
-
-<div class="relative text-white mb-12 max-w-4xl px-6">
-
-<p class="tracking-[8px] text-sm uppercase opacity-80">
-Performance • Seguridad • Tecnología
-</p>
-
-<h1 class="hero-title mt-4">
-La <span>llanta perfecta</span><br>
-para tu moto existe
-</h1>
-
-<p class="mt-4 text-lg text-gray-200">
-Encuéntrala en segundos con nuestro buscador inteligente
-</p>
-
-</div>
-
-<!-- BUSCADOR -->
-
-<div class="search-card">
-
-<div class="filters">
-
-<select id="ancho" class="filter">
-<option value="">Ancho</option>
-</select>
-
-<select id="perfil" class="filter">
-<option value="">Perfil</option>
-</select>
-
-<select id="diametro" class="filter">
-<option value="">Diámetro</option>
-</select>
-
-<button id="buscar" class="search-btn">
-Buscar llanta
-</button>
-
-</div>
-
-</div>
-
-</section>
-      <!-- CARRUSEL DE PRODUCTOS -->
-
-<section class="relative pt-20 pb-20 bg-white overflow-hidden">  
-<div class="max-w-7xl mx-auto px-6">
-
-<h2 class="text-4xl font-bold text-center mb-10">
-  Lo más destacado
-</h2>
-
-<div class="swiper premiumSwiper">
-
-<div class="swiper-wrapper">
-
-<!-- PRODUCTO -->
-
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
   </div>
-</div>
 
-<!-- PRODUCTO -->
-
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
+  <div class="footer-bottom">
+    © 2026 Ultrallantas. Todos los derechos reservados.
   </div>
-</div>
-<!-- PRODUCTO -->
+</footer>
 
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
-  </div>
-</div>
-<!-- PRODUCTO -->
 
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
-  </div>
-</div>
-<!-- PRODUCTO -->
+  <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/admin.js"></script>
 
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi2.JPG">
-  </div>
-</div>
-<!-- PRODUCTO -->
+</body>
 
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
-  </div>
-</div>
-<!-- PRODUCTO -->
- <div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi2.JPG">
-  </div>
-</div>
-<!-- PRODUCTO -->
-
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
-  </div>
-</div>
-<!-- PRODUCTO -->
-
-<div class="swiper-slide">
-  <div class="card">
-    <img src="assets/img/carrousel/publi.JPG">
-  </div>
-</div>
-<div class="swiper-pagination"></div>
-
-</div>
-
-</div>
-</section>
-
-<!-- SECCIÓN EXPERIENCIA DE MANEJO -->
-
-<section class="ride-premium">
-
-<div class="ride-bg"></div>
-
-<div class="ride-content reveal">
-
-<h2 class="ride-title">
-ELEVA TU EXPERIENCIA
-</h2>
-
-<h3 class="ride-sub">
-de manejo con l mejor <span>ULTRALLANTAS</span>
-</h3>
-
-<p class="ride-description">
-Para uso privado o profesional, nuestras llantas están diseñadas
-para ofrecer máximo agarre, seguridad y rendimiento en cada kilómetro.
-Encuentra la llanta perfecta para tu estilo de conducción.
-</p>
-
-<div class="ride-divider"></div>
-
-</div>
-
-</section>
-<script src="assets/js/app.js"></script>
-
-  </body>
 </html>

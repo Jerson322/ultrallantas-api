@@ -284,33 +284,87 @@
 }
 
 /* =====================================================
-     11. DROPDOWN CATEGORÍAS
+     11. MENÚ MÓVIL MEJORADO
+  ===================================================== */
+
+#menuMobile {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.98);
+  backdrop-filter: blur(20px);
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================================
+     12. DROPDOWN CATEGORÍAS
   ===================================================== */
 
 /* Mobile submenu improvements */
-#submenuCategoriasMobile li {
-  padding: 8px 0;
-  border-bottom: 1px solid #f3f4f6;
-  transition: color 0.2s;
-}
 
-#submenuCategoriasMobile li:hover {
-  color: #000 !important;
+/* MOBILE - submenu scrollable */
+@media (max-width: 640px) {
+  #submenuCategoriasMobile {
+    max-height: 300px; /* limita altura del dropdown */
+    overflow-y: auto; /* habilita scroll vertical */
+    overflow-x: hidden;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 8px;
+    margin-top: 5px;
+    text-align: left !important;
+    position: relative; /* importante: no absolute */
+    z-index: 50;
+  }
+
+  #submenuCategoriasMobile li {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  #submenuCategoriasMobile li:hover {
+    color: #f97316;
+  }
 }
 
 /* Desktop dropdown - ensure Tailwind utilities work */
 #submenuCategoriasDesktop {
   min-width: 220px;
+
+  max-height: 400px; /* altura máxima */
+  overflow-y: auto; /* permite scroll vertical */
+  overflow-x: hidden; /* evita scroll horizontal */
+
+  /* opcional: fondo y padding */
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
 }
 
-#submenuCategoriasDesktop li {
-  padding: 10px 12px;
-  transition: all 0.2s;
+/* Scrollbar estilo (opcional) */
+#submenuCategoriasDesktop::-webkit-scrollbar {
+  width: 6px;
 }
-
-#submenuCategoriasDesktop li:hover {
-  background: rgba(249, 115, 22, 0.1);
-  color: #f97316;
+#submenuCategoriasDesktop::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.6);
+  border-radius: 3px;
 }
 
 /* =====================================================
@@ -475,4 +529,215 @@
   opacity: 1;
 
   transform: translateY(0);
+}
+
+.footer {
+  background: #0b0b0b;
+  color: white;
+  padding-top: 60px;
+}
+
+.footer-container {
+  max-width: 1300px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 60px;
+  padding: 0 40px;
+}
+
+/* logo */
+.footer-logo {
+  width: 160px;
+  margin-bottom: 25px;
+}
+
+/* redes */
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-social a {
+  width: 42px;
+  height: 42px;
+  background: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.footer-social a:hover {
+  background: #e60023;
+  transform: translateY(-4px);
+}
+
+/* columnas */
+.footer-col h4 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-col li {
+  margin-bottom: 10px;
+}
+
+.footer-col a {
+  color: #bdbdbd;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-col a:hover {
+  color: white;
+  padding-left: 4px;
+}
+
+/* bottom */
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #222;
+  margin-top: 50px;
+  padding: 20px;
+  font-size: 14px;
+  color: #999;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+/* CONTINENATAL */
+
+/* SECCION */
+.seccion-gama {
+  position: relative;
+  padding: 120px 0;
+  background-image: url("/assets/img/productos/fondo.png");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* capa */
+.overlay-fondo {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* contenedor */
+.contenedor {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 40px;
+}
+
+/* TITULO */
+.titulo {
+  text-align: center;
+  margin-bottom: 200px;
+}
+
+.titulo h2 {
+  font-size: 60px;
+  font-weight: 900;
+}
+
+.titulo h3 {
+  font-size: 32px;
+}
+
+/* CAROUSEL REAL */
+.carousel {
+  display: flex;
+  gap: 120px;
+  align-items: flex-end;
+  overflow: visible;
+  width: 100%;
+  margin-top: 250px;
+}
+
+/* TRACK DEL CAROUSEL */
+.carousel-track {
+  display: flex;
+  gap: 120px;
+  transition: transform 0.6s ease;
+}
+
+/* ITEM */
+.item {
+  min-width: 220px;
+  position: relative;
+  transition: 0.4s;
+}
+
+/* IMAGEN */
+.item img {
+  height: 240px;
+  width: auto;
+  object-fit: contain;
+  transition: 0.4s;
+}
+
+/* EFECTO HOVER */
+.carousel:hover .item:not(:hover) {
+  opacity: 0.35;
+}
+
+.item:hover {
+  opacity: 1;
+  transform: translateY(-40px);
+}
+
+.item:hover img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.25));
+}
+
+/* TEXTO ARRIBA */
+.overlay {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 5;
+}
+.item:hover .overlay {
+  opacity: 1;
+  transform: translate(-50%, -10px);
+}
+
+.overlay h5 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.overlay a {
+  background: black;
+  color: white;
+  padding: 7px 16px;
+  border-radius: 8px;
+  text-decoration: none;
 }
